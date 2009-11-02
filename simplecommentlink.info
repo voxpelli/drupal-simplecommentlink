@@ -1,0 +1,5 @@
+; $Id$
+name = "Simple Comment Link"
+description = "Simplifies the comment link on nodes to be more consistent across different states"
+core = 6.x
+version = "6.x-0.1"

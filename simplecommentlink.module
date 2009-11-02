@@ -1,0 +1,30 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Main file for the comment link simplifier
+ */
+
+/**
+ * Implementation of hook_links_alter().
+ */
+function simplecommentlink_link_alter(&$links, $node) {
+  if ($node->comment == 1 || $node->comment == 2) {
+    $all = comment_num_all($node->nid);
+
+    if (!isset($links['comment_comments'])) {
+      $links['comment_comments'] = array(
+        'href'       => "node/$node->nid",
+        'attributes' => array('title' => t('Jump to the first comment of this posting.')),
+        'fragment'   => 'comments',
+      );
+    }
+
+    $links['comment_comments']['title']   = t('Comments %count', array('%count' => $all));
+    $links['comment_comments']['html']    = TRUE;
+    $links['comment_comments']['#weight'] = -10;
+
+    unset($links['comment_add'], $links['comment_new_comments'], $links['comment_forbidden'], $links['node_read_more']);
+  }
+}
